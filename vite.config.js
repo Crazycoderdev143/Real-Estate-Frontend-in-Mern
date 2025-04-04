@@ -1,17 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
 
-// https://vite.dev/config/
+// Vite configuration
 export default defineConfig({
-  plugins: [react()],
-  envPrefix: 'VITE_',  // Ensure VITE_ variables are loadedF
+  plugins: [react()],  // Use SWC for fast React compilation
+  envPrefix: 'VITE_',  // Prefix for exposing env variables to the client
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',  // Fallback to 5000
+        target: 'http://localhost:8000',  // Your backend server
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')  // Optional rewrite
-      }
-    }
-  }
-})
+        rewrite: (path) => path.replace(/^\/api/, ''),  // Remove /api prefix
+      },
+    },
+  },
+});
