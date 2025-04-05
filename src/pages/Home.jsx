@@ -21,8 +21,9 @@ const Home = () => {
   const fetchProperties = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${host}/api/user`, {
+      const res = await fetch(`/api/user`, {
         method: "GET",
+        credentials: "include", // important!
         headers: {"Content-Type": "application/json"},
       });
       const data = await res.json();
@@ -43,8 +44,9 @@ const Home = () => {
     debounce(async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${host}/api/user/agents`, {
+        const res = await fetch(`/api/user/agents`, {
           method: "GET",
+          credentials: "include", // important!
           headers: {
             "Content-Type": "application/json",
           },

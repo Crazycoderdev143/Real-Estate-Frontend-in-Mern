@@ -28,8 +28,9 @@ const App = () => {
   // Function to send FCM token to the backend
   const sendTokenToBackend = async (token) => {
     try {
-      const res = await fetch(`${host}/api/user/reg-notify-token`, {
+      const res = await fetch(`api/user/reg-notify-token`, {
         method: "POST",
+        credentials: "include", // important!
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({token}),
       });
