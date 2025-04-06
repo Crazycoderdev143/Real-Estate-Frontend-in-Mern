@@ -50,7 +50,6 @@ const ShowAllProperty = () => {
         const data = await res.json();
         if (data.success) {
           setProperties(data.properties);
-          dispatch(showAlert({message: data?.message, type: "success"}));
         } else {
           dispatch(showAlert({message: data?.message, type: "error"}));
         }

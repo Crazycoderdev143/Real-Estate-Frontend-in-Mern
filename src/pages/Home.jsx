@@ -2,7 +2,6 @@ import React, {useEffect, useState, useMemo, useCallback} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {showAlert} from "../Redux/slices/alertSlice";
 import Loading from "../Components/Loading";
-import Logo from "/SdkyEstate-Icon.png";
 import debounce from "lodash.debounce";
 import {Link} from "react-router-dom";
 import Card from "../Components/Card";
@@ -12,7 +11,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
 
-  const [fallbackImage, setFallbackImage] = useState(Logo);
+  const [fallbackImage, setFallbackImage] = useState("/SdkyEstate-Icon.png");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(false);

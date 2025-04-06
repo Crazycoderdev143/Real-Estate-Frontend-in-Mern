@@ -273,16 +273,18 @@ const PropertyInfo = () => {
                   {property?.furnished && <div>Furnished</div>}
                 </div>
                 <div>
-                  Created Date and Time :
+                  Created Date and Time : {" "}
                   {new Date(property.createdAt).toLocaleString()}
                 </div>
-               {currentUser?.role !== "Admin"&& <Link
-                  to={!isLoggedIn ? "/login" :"" }
-                  onClick={addItemToCart}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-all text-center"
-                >
-                  Add to Cart
-                </Link>}
+                {currentUser?.role !== "Admin" && (
+                  <Link
+                    to={!isLoggedIn ? "/login" : ""}
+                    onClick={addItemToCart}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-all text-center"
+                  >
+                    Add to Cart
+                  </Link>
+                )}
                 {currentUser?.role === "Admin" ? (
                   <Link
                     to={`/admin/update-Property/${propertyId}`}

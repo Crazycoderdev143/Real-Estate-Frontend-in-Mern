@@ -111,7 +111,7 @@ const ShowAllUser = () => {
             <label className="flex items-center gap-2 text-lg">
               <Icons.FaFilter className="text-blue-400" />
               <select
-                className="bg-transparent border p-2 rounded-lg"
+                className="bg-transparent border p-1 rounded-lg"
                 onChange={(e) => setFilterRole(e.target.value)}
                 value={filterRole}
               >

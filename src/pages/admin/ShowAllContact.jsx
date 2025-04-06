@@ -41,7 +41,6 @@ const ShowAllContact = () => {
 
       if (data.success) {
         setContacts(data.contacts);
-        dispatch(showAlert({message: data.message, type: "success"}));
       } else {
         dispatch(showAlert({message: data.message, type: "error"}));
       }

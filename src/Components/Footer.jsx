@@ -1,7 +1,6 @@
 import * as Icons from "react-icons/fa";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import logo from "/SdkyEstate-Icon.png";
 import {useMemo} from "react";
 
 const Footer = () => {
@@ -52,7 +51,7 @@ const Footer = () => {
         <div>
           <h1 className="font-bold text-2xl flex justify-center md:justify-start items-center">
             <img
-              src={logo}
+              src={"/SdkyEstate-Icon.png"}
               alt="Logo"
               style={{height: "50px", width: "auto"}}
             />
