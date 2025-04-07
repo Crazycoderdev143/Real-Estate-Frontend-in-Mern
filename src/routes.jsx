@@ -11,6 +11,7 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const Cart = lazy(() => import("./Components/Cart"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Search = lazy(() => import("./Components/Search"));
 const Properties = lazy(() => import("./Components/Properties"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
@@ -38,6 +39,7 @@ export const publicRoutes = [
   {path: "/", element: <Home />},
   {path: "/about", element: <About />},
   {path: "/login", element: <Login />},
+  {path: "/search", element: <Search />},
   {path: "/contact", element: <Contact />},
   {path: "/registration", element: <SignUp />},
   {path: "/properties", element: <Properties />},

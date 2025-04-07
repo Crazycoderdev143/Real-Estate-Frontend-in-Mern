@@ -1,9 +1,7 @@
+import React, {useEffect, useState, useMemo, useCallback} from "react";
 import {showAlert} from "../../Redux/slices/alertSlice";
 import {useSelector, useDispatch} from "react-redux";
-import React, {useEffect, useState, useMemo, useCallback} from "react";
-import Loading from "../../Components/Loading";
 import {useNavigate} from "react-router-dom";
-import debounce from "lodash.debounce";
 import Cookies from "js-cookie";
 
 // Utility function for validation (improves maintainability)
@@ -104,7 +102,7 @@ const AddNewProperty = () => {
     try {
       const formDataObj = new FormData();
       Object.entries(formData).forEach(([key, value]) =>
-        formDataObj.append(key, value.trim())
+        formDataObj.append(key, value)
       );
       images.forEach((img) => formDataObj.append("propertyImages", img.file));
 
@@ -114,10 +112,10 @@ const AddNewProperty = () => {
         body: formDataObj,
       });
 
+      const data = await res.json();
+
       if (!res.ok || !data.success)
         throw new Error(data.message || "Something went wrong.");
-
-      const data = await res.json();
 
       dispatch(showAlert({message: data.message, type: "success"}));
       setFormData({userRef});
@@ -140,7 +138,7 @@ const AddNewProperty = () => {
     const {name, value, type, checked} = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value.trim(),
+      [name]: type === "checkbox" ? checked : value,
     }));
   }, []);
 
@@ -175,7 +173,7 @@ const AddNewProperty = () => {
             "city",
             "state",
             "country",
-            "ownerName",
+            "name",
             "phone",
             "email",
           ].map((field) => (
@@ -192,7 +190,7 @@ const AddNewProperty = () => {
 
           <input
             type="number"
-            name="propertySize"
+            name="sqft"
             placeholder="Dimensions in Sqft"
             className={`p-2 border rounded-lg focus:ring-2 app ${themeClass.input}`}
             onChange={handleChange}
@@ -243,7 +241,7 @@ const AddNewProperty = () => {
           <div className="flex items-center gap-1">
             <input
               type="number"
-              name="listingPrice"
+              name="regularPrice"
               placeholder="Price"
               className={` px-4 py-1 border rounded-lg focus:ring-2 app ${themeClass.input}`}
               onChange={handleChange}
@@ -265,7 +263,7 @@ const AddNewProperty = () => {
 
           {/* Property Type Dropdown */}
           <select
-            name="propertyType"
+            name="type"
             className={`p-2 border rounded-lg app ${themeClass.input}`}
             onChange={handleChange}
             required
@@ -302,8 +300,9 @@ const AddNewProperty = () => {
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 transition"
+            disabled={loading}
           >
-            Add Property
+            {loading ? "Adding... Property" : "Add Property"}
           </button>
         </div>
       </form>
