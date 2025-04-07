@@ -9,7 +9,6 @@ const FeedbackPopup = () => {
   const mode = useSelector((state) => state.theme.mode);
   const [showPopup, setShowPopup] = useState(true);
   const [loading, setLoading] = useState(false);
-
   const [comment, setComment] = useState("");
   const [hover, setHover] = useState(null);
   const [rating, setRating] = useState(0);
