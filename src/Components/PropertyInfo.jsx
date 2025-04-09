@@ -13,7 +13,7 @@ const PropertyInfo = () => {
   const dispatch = useDispatch();
   const {propertyId} = useParams();
   const [current, setCurrent] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({content: ""});
   const [message, setMessage] = useState(null);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -113,6 +113,7 @@ const PropertyInfo = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: access_token,
           },
           body: JSON.stringify({
             ...formData,
@@ -273,7 +274,7 @@ const PropertyInfo = () => {
                   {property?.furnished && <div>Furnished</div>}
                 </div>
                 <div>
-                  Created Date and Time : {" "}
+                  Created Date and Time :{" "}
                   {new Date(property.createdAt).toLocaleString()}
                 </div>
                 {currentUser?.role !== "Admin" && (
