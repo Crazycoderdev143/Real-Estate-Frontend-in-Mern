@@ -167,6 +167,22 @@ const Header = () => {
         <div
           className={`sm:hidden absolute top-16 left-0 w-full app ${containerClass} p-4 flex flex-col items-center gap-4`}
         >
+          <div
+            onClick={() => dispatch(toggleTheme())}
+            className="cursor-pointer"
+          >
+            {mode === "light" ? (
+              <Icons.FaMoon
+                size={24}
+                className="text-cyan-400"
+              />
+            ) : (
+              <Icons.FaSun
+                size={24}
+                className="text-yellow-400"
+              />
+            )}
+          </div>
           <Link
             to="/"
             onClick={() => setMenuOpen(false)}

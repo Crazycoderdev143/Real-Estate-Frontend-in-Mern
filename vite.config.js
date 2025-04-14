@@ -16,7 +16,8 @@ export default defineConfig({
     proxy: {
       // Proxy requests starting with /api to backend
       '/api': {
-        target: "https://real-estate-backend-in-mern.onrender.com", // Your Express backend
+        // target: "https://real-estate-backend-in-mern.onrender.com", // Your Express backend
+        target: "http://localhost:8000", // Your Express backend
         changeOrigin: true,
         secure: false,
       },
