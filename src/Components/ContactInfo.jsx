@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import NotFound from "./NotFound";
 import Loading from "./Loading";
 import Cookies from "js-cookie";
+import { showAlert } from "../Redux/slices/alertSlice";
 
 const ContactInfo = () => {
   const {contactId} = useParams(); // Get contact ID from URL
@@ -36,8 +37,7 @@ const ContactInfo = () => {
         setMessage(data.message || "Failed to fetch contact details.");
       }
     } catch (error) {
-      setMessage(error.message || "An unexpected error occurred.");
-      console.error("Error fetching contact:", error);
+      dispatch(showAlert({message: "Something went wrong!", type: "error"}));
     } finally {
       setLoading(false);
     }

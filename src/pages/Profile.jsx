@@ -7,6 +7,7 @@ import NotFound from "../Components/NotFound";
 import Loading from "../Components/Loading";
 import * as Icons from "react-icons/fa";
 import Cookies from "js-cookie";
+import { showAlert } from "../Redux/slices/alertSlice";
 
 const removeCookie = (name) => {
   Cookies.remove(name);
@@ -58,7 +59,7 @@ const Profile = () => {
       }
       setState({loading: false, message: data.message});
     } catch (error) {
-      setState({loading: false, message: "Error deleting account."});
+      dispatch(showAlert({message: "Something went wrong!", type: "error"}));
     }
   };
 

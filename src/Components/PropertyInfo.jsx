@@ -39,7 +39,7 @@ const PropertyInfo = () => {
         setMessage(data.message);
       }
     } catch (error) {
-      setMessage(error.message);
+      dispatch(showAlert({message: "Something went wrong!", type: "error"}));
     }
   };
 
@@ -60,8 +60,7 @@ const PropertyInfo = () => {
           dispatch(showAlert({message: data?.message, type: "error"}));
         }
       } catch (error) {
-        dispatch(showAlert({message: error?.message, type: "error"}));
-        console.error("Error fetching Property: ", error);
+        dispatch(showAlert({message: "Something went wrong!", type: "error"}));
       } finally {
         setLoading(false);
       }

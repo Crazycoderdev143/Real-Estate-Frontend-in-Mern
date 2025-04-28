@@ -79,8 +79,8 @@ const UpdateProfile = () => {
       );
       return res.json();
     } catch (error) {
-      console.error("Profile update error:", error);
-      throw new Error("Failed to update profile.");
+         dispatch(showAlert({message: "Something went wrong!", type: "error"}));
+   
     }
   };
 
@@ -105,7 +105,7 @@ const UpdateProfile = () => {
           dispatch(showAlert({message: data?.message, type: "error"}));
         }
       } catch (error) {
-        dispatch(showAlert({message: error.message, type: "error"}));
+        dispatch(showAlert({message: "Something went wrong!", type: "error"}));
       } finally {
         setLoading(false);
       }

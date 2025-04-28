@@ -34,8 +34,7 @@ const FeedbackPopup = () => {
         dispatch(showAlert({message: data.message, type: "error"}));
       }
     } catch (error) {
-      console.error("Error sending feedback: ", error);
-      dispatch(showAlert({message: error.message, type: "error"}));
+      dispatch(showAlert({message: "Something went wrong!", type: "error"}));
     } finally {
       setLoading(false);
     }

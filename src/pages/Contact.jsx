@@ -54,12 +54,7 @@ const Contact = () => {
       );
       if (data.success) setFormData(initial);
     } catch (error) {
-      dispatch(
-        showAlert({
-          message: error?.message || "Something went wrong.",
-          type: "error",
-        })
-      );
+      dispatch(showAlert({message: "Something went wrong.", type: "error"}));
     } finally {
       setLoading(false);
     }
