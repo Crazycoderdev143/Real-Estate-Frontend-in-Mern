@@ -18,6 +18,8 @@ const Header = () => {
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
 
+
+  console.log("object", isLoggedIn, currentUser);
   useEffect(() => {
     document.body.className =
       mode === "light"

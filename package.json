@@ -14,7 +14,7 @@
     "clsx": "^2.1.1",
     "dompurify": "^3.2.4",
     "dotenv": "^16.4.7",
-    "firebase": "^11.6.0",
+    "firebase": "^11.6.1",
     "framer-motion": "^12.6.3",
     "js-cookie": "^3.0.5",
     "lodash.debounce": "^4.0.8",

@@ -1,5 +1,6 @@
 // Import Firebase SDK functions
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 
@@ -22,4 +23,5 @@ if (Object.values(firebaseConfig).some(value => !value)) {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
+export const auth = getAuth(app);
 export { getToken, onMessage };

@@ -1,5 +1,5 @@
 import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth";
-import {app} from "../services/firebase";
+import {app, auth} from "../services/firebase";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import Cookies from "js-cookie";
@@ -7,20 +7,27 @@ import {useDispatch} from "react-redux";
 import {showAlert} from "../Redux/slices/alertSlice";
 import {login, logout} from "../Redux/slices/userSlice";
 
+const setSecureCookie = (name, value, days) => {
+  Cookies.set(name, value, {
+    expires: days,
+    path: "/",
+    secure: true, // Only works on HTTPS
+    sameSite: "Strict", // Protects against CSRF
+  });
+};
+const host = import.meta.env.VITE_HOST || "http://localhost:8000";
+
 const OAuth = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const host = import.meta.env.VITE_HOST;
-  const secretKey = import.meta.env.VITE_SECRET_KEY;
 
-  const authenticateUser = async (email, accessToken) => {
+  const authenticateUser = async (usernameOrEmail, password) => {
     try {
       const res = await fetch(`${host}/api/user/login`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        credentials: "include", // Secure cookie handling
-        body: JSON.stringify({email, accessToken}),
+        body: JSON.stringify({usernameOrEmail, password}),
       });
       return await res.json();
     } catch (error) {
@@ -31,18 +38,15 @@ const OAuth = () => {
   const handleGoogleClick = async () => {
     try {
       setLoading(true);
-      const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      const data = await authenticateUser(user.email, user.uid);
 
-      const data = await authenticateUser(user.email, user.accessToken);
-
-      if (data.success) {
-        Cookies.set("access_token", data.access_token, {
-          secure: true,
-          sameSite: "Strict",
-        });
+      console.log("object", data);
+      if (data.success && data.access_token) {
+        setSecureCookie("access_token", data.access_token, 7);
+        localStorage.setItem("access_token", data.access_token);
         dispatch(login(data.user_info));
         navigate("/");
       } else {

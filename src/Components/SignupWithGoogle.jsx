@@ -1,5 +1,5 @@
-import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth";
-import {app} from "../services/firebase";
+import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {app, auth} from "../services/firebase";
 import {useNavigate} from "react-router-dom";
 import {useState, useCallback} from "react";
 import Cookies from "js-cookie";
@@ -10,8 +10,13 @@ import {showAlert} from "../Redux/slices/alertSlice";
 // Constants (Declared outside the component for efficiency)
 const HOST = import.meta.env.VITE_HOST || "http://localhost:8000";
 
-const setCookie = (name, value, days) => {
-  Cookies.set(name, value, {expires: days, path: "/", secure: true});
+const setSecureCookie = (name, value, days) => {
+  Cookies.set(name, value, {
+    expires: days,
+    path: "/",
+    secure: true, // Only works on HTTPS
+    sameSite: "Strict", // Protects against CSRF
+  });
 };
 
 const OAuth = () => {
@@ -23,7 +28,7 @@ const OAuth = () => {
   const registerUser = async (user) => {
     const randomSuffix = Math.floor(Math.random() * 1000 + 1);
     try {
-      const response = await fetch(`${HOST}/api/user/registration`, {
+      const response = await fetch(`${HOST}/api/user/registrationwithgoogle`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -32,6 +37,7 @@ const OAuth = () => {
           password: user.uid, // Use a safer identifier instead of a secret key
           profileImage: user.photoURL,
           role: "User",
+          phone: user.phoneNumber || 9999999999,
         }),
       });
 
@@ -46,17 +52,14 @@ const OAuth = () => {
     setLoading(true);
     try {
       const provider = new GoogleAuthProvider();
-      const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
       const data = await registerUser(user);
 
-      if (data.success) {
-        if (data.access_token) {
-          setCookie("access_token", data.access_token, 7);
-          localStorage.setItem("access_token", data.access_token);
-        }
+      if (data.success && data.access_token) {
+        setSecureCookie("access_token", data.access_token, 7);
+        localStorage.setItem("access_token", data.access_token);
         dispatch(login(data.user_info));
         navigate("/");
       } else {
