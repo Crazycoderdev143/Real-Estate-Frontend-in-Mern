@@ -362,6 +362,7 @@
 
 import SignupWithGoogle from "../Components/SignupWithGoogle";
 import React, {useEffect, useState, useMemo} from "react";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 import {login, logout} from "../Redux/slices/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {showAlert} from "../Redux/slices/alertSlice";
@@ -569,7 +570,11 @@ const SignUp = () => {
                 Submit
               </button>
             )}
-            <SignupWithGoogle />
+            <GoogleOAuthProvider
+              clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+            >
+              <SignupWithGoogle />
+            </GoogleOAuthProvider>
             {message && (
               <div className="text-red-600 text-center mt-2">{message}</div>
             )}
