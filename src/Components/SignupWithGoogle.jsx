@@ -30,10 +30,7 @@ const OAuth = () => {
           `${HOST}/api/user/registrationwithgoogle`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Cross-Origin-Opener-Policy": "same-origin",
-            },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify({tokenId: authResult.code}),
           }
         );
