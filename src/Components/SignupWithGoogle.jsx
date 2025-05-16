@@ -26,11 +26,20 @@ const OAuth = () => {
   const responseGoogle = async (authResult) => {
     try {
       if (authResult.code) {
+        const csrfRes = await fetch(`${HOST}/api/user/csrf-token`, {
+          credentials: "include", // VERY IMPORTANT
+        });
+        const {csrfToken} = await csrfRes.json();
+
         const response = await fetch(
           `${HOST}/api/user/registrationwithgoogle`,
           {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            credentials: "include", // Needed to send cookies
+            headers: {
+              "Content-Type": "application/json",
+              "CSRF-Token": csrfToken, // Attach the CSRF token
+            },
             body: JSON.stringify({tokenId: authResult.code}),
           }
         );
