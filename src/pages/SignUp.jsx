@@ -414,9 +414,18 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      const csrfRes = await fetch(`${HOST}/api/user/csrf-token`, {
+        credentials: "include", // VERY IMPORTANT
+      });
+      const {csrfToken} = await csrfRes.json();
+
       const res = await fetch(`${host}/api/user/gen-otp`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        credentials: "include", // Needed to send cookies
+        headers: {
+          "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
+        },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -441,10 +450,17 @@ const SignUp = () => {
     try {
       if (!validateForm()) return;
 
+      const csrfRes = await fetch(`${HOST}/api/user/csrf-token`, {
+        credentials: "include", // VERY IMPORTANT
+      });
+      const {csrfToken} = await csrfRes.json();
+
       const res = await fetch(`${host}/api/user/verify-registration`, {
         method: "POST",
+        credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
         },
         body: JSON.stringify(formData),
       });

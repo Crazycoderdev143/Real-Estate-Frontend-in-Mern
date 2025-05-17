@@ -38,7 +38,7 @@ const OAuth = () => {
             credentials: "include", // Needed to send cookies
             headers: {
               "Content-Type": "application/json",
-              "CSRF-Token": csrfToken, // Attach the CSRF token
+              "CSRF-Token": csrfToken, 
             },
             body: JSON.stringify({tokenId: authResult.code}),
           }
