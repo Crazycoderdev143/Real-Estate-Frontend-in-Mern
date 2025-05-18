@@ -2,7 +2,6 @@ import {GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {auth} from "../services/firebase";
 import {useNavigate} from "react-router-dom";
 import {useState, useCallback} from "react";
-import Cookies from "js-cookie";
 import {useDispatch, useSelector} from "react-redux";
 import {login, logout} from "../Redux/slices/userSlice";
 import {showAlert} from "../Redux/slices/alertSlice";
@@ -24,7 +23,7 @@ const OAuth = () => {
         credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
-          "CSRF-Token": csrfToken,
+          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({
           username: `${user.displayName}_${userUid}`,

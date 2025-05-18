@@ -1,11 +1,10 @@
 import LoginWithGoogle from "../Components/LoginWithGoogle";
-import React, {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {login, logout} from "../Redux/slices/userSlice";
 import {showAlert} from "../Redux/slices/alertSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import Loading from "../Components/Loading";
-import Cookies from "js-cookie";
 
 const API_HOST = import.meta.env.VITE_HOST || "http://localhost:8000";
 
@@ -44,7 +43,7 @@ const Login = () => {
         credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
-          "CSRF-Token": csrfToken,
+          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({
           usernameOrEmail: formData.usernameOrEmail.trim(),
