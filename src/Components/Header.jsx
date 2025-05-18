@@ -1,5 +1,6 @@
 import {fetchCartProperties, clearCart} from "../Redux/slices/cartSlice";
 import {useState, useCallback, useEffect, useMemo} from "react";
+import {clearCsrfToken} from "../Redux/slices/csrfTokenSlice";
 import defaultProImg from "../public/images/userpic.jpg";
 import {toggleTheme} from "../Redux/slices/themeSlice";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,12 +13,11 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const [searchTerm, setSearchTerm] = useState("");
   const {cart} = useSelector((state) => state.cart);
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
-
 
   useEffect(() => {
     document.body.className =
@@ -31,11 +31,15 @@ const Header = () => {
   }, [isLoggedIn, access_token, currentUser, dispatch]);
 
   const logOut = useCallback(() => {
+    // Redux state cleanup
     dispatch(logout());
     dispatch(clearCart());
-    Cookies.remove("access_token");
+    dispatch(clearCsrfToken());
+
+    Cookies.remove("access_token", {path: "/"});
+    Cookies.remove("_csrf", {path: "/"});
     localStorage.removeItem("access_token");
-    navigate("/login");
+    navigate("/login"); // Redirect to login
   }, [dispatch, navigate]);
 
   const handleSearch = (e) => {
@@ -126,7 +130,7 @@ const Header = () => {
               <Icons.FaCartArrowDown
                 size={28}
                 className="text-cyan-500"
-              />{" "}
+              />
               {cart.length > 0 && cart.length}
             </Link>
           )}

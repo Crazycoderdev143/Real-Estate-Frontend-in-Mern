@@ -2,17 +2,23 @@ import {publicRoutes, sharedRoutes, agentRoutes, adminRoutes} from "./routes";
 import {messaging, getToken, onMessage} from "./services/firebase";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React, {Suspense, useEffect, useState} from "react";
+import {
+  csrfTokenLoading,
+  csrfTokenSuccess,
+  csrfTokenFailure,
+} from "./Redux/slices/csrfTokenSlice";
 import ErrorBoundary from "./Components/ErrorBoundary";
 import FeedbackPopup from "./Components/FeedbackPopup";
 import {showAlert} from "./Redux/slices/alertSlice";
 import Loading from "./Components/Loading";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const App = () => {
   const host = import.meta.env.VITE_HOST; // Environment variable
   const [showPopup, setShowPopup] = useState(false);
+  const {isLoggedIn} = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const hasSeenProperty = localStorage.getItem(`viewed`);
@@ -30,8 +36,11 @@ const App = () => {
     try {
       const res = await fetch(`api/user/reg-notify-token`, {
         method: "POST",
-        credentials: "include", // important!
-        headers: {"Content-Type": "application/json"},
+        credentials: "include", // Needed to send cookies
+        headers: {
+          "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
+        },
         body: JSON.stringify({token}),
       });
 
@@ -99,9 +108,29 @@ const App = () => {
     }
   };
 
+  const fetchCsrfToken = async () => {
+    dispatch(csrfTokenLoading());
+    try {
+      const res = await fetch("/api/user/csrf-token", {
+        method: "GET",
+        credentials: "include", // important: includes cookies
+      });
+      if (!res.ok) throw new Error("Failed to fetch CSRF token");
+      const {csrfToken} = await res.json();
+      dispatch(csrfTokenSuccess(csrfToken));
+    } catch (err) {
+      dispatch(csrfTokenFailure(err.message));
+    }
+  };
+
+  useEffect(() => {
+    fetchCsrfToken();
+  }, [isLoggedIn]);
+  
   useEffect(() => {
     requestPermission();
     onMessage(messaging, handleIncomingMessage);
+    fetchCsrfToken();
   }, []);
 
   return (

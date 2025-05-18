@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist"
+import csrfTokenReducer from "./slices/csrfTokenSlice";
 import storage from "redux-persist/lib/storage";
 import themeReducer from './slices/themeSlice';
 import alertReducer from './slices/alertSlice';
@@ -8,7 +9,7 @@ import cartReducer from "./slices/cartSlice";
 
 // Wrap all reducers here and combine them into a single rootReducer using combineReducers 
 const rootReducer = combineReducers({
-  user: userReducer, theme: themeReducer, alert: alertReducer, cart: cartReducer,
+  user: userReducer, theme: themeReducer, alert: alertReducer, cart: cartReducer, csrfToken: csrfTokenReducer,
 })
 
 // Persist the rootReducer using redux-persist

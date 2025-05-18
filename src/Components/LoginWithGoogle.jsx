@@ -2,31 +2,27 @@ import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth";
 import {app, auth} from "../services/firebase";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import Cookies from "js-cookie";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {showAlert} from "../Redux/slices/alertSlice";
 import {login, logout} from "../Redux/slices/userSlice";
 
-const setSecureCookie = (name, value, days) => {
-  Cookies.set(name, value, {
-    expires: days,
-    path: "/",
-    secure: true, // Only works on HTTPS
-    sameSite: "Strict", // Protects against CSRF
-  });
-};
 const host = import.meta.env.VITE_HOST || "http://localhost:8000";
 
 const OAuth = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const csrfToken = useSelector((state) => state.csrfToken.token);
 
   const authenticateUser = async (usernameOrEmail, password) => {
     try {
       const res = await fetch(`${host}/api/user/login`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        credentials: "include", // Needed to send cookies
+        headers: {
+          "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
+        },
         body: JSON.stringify({usernameOrEmail, password}),
       });
       return await res.json();
@@ -43,9 +39,7 @@ const OAuth = () => {
       const user = result.user;
       const data = await authenticateUser(user.email, user.uid);
 
-      console.log("object", data);
       if (data.success && data.access_token) {
-        setSecureCookie("access_token", data.access_token, 7);
         localStorage.setItem("access_token", data.access_token);
         dispatch(login(data.user_info));
         navigate("/");

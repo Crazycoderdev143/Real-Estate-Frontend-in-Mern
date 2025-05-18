@@ -15,7 +15,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({usernameOrEmail: "", password: ""});
 
-  const access_token = Cookies.get("access_token");
+  const csrfToken = useSelector((state) => state.csrfToken.token);
+  const access_token = localStorage.getItem("access_token");
   const {isLoggedIn} = useSelector((state) => state.user);
   const mode = useSelector((state) => state.theme.mode);
 
@@ -23,34 +24,28 @@ const Login = () => {
     if (isLoggedIn && access_token) navigate("/");
   }, [isLoggedIn, access_token, navigate]);
 
-  const setSecureCookie = (name, value, days) => {
-    Cookies.set(name, value, {
-      expires: days,
-      path: "/",
-      secure: true, // Only works on HTTPS
-      sameSite: "Strict", // Protects against CSRF
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!formData.usernameOrEmail.trim() || !formData.password.trim()) {
-      dispatch(
-        showAlert({
-          message: "Username/Email and password are required.",
-          type: "error",
-        })
-      );
-      setLoading(false);
-      return;
-    }
-
     try {
+      if (!formData.usernameOrEmail.trim() || !formData.password.trim()) {
+        dispatch(
+          showAlert({
+            message: "Username/Email and password are required.",
+            type: "error",
+          })
+        );
+        setLoading(false);
+        return;
+      }
       const res = await fetch(`${API_HOST}/api/user/login`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        credentials: "include", // Needed to send cookies
+        headers: {
+          "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
+        },
         body: JSON.stringify({
           usernameOrEmail: formData.usernameOrEmail.trim(),
           password: formData.password.trim(),
@@ -61,7 +56,6 @@ const Login = () => {
       if (!res.ok) throw new Error(data.message || "Login failed");
 
       if (data.success && data.access_token) {
-        setSecureCookie("access_token", data.access_token, 7);
         localStorage.setItem("access_token", data.access_token);
         dispatch(login(data.user_info));
         navigate("/");
