@@ -34,7 +34,7 @@ const App = () => {
   // Function to send FCM token to the backend
   const sendTokenToBackend = async (token) => {
     try {
-      const res = await fetch(`api/user/reg-notify-token`, {
+      const res = await fetch(`${host}api/user/reg-notify-token`, {
         method: "POST",
         credentials: "include", // Needed to send cookies
         headers: {
@@ -111,7 +111,7 @@ const App = () => {
   const fetchCsrfToken = async () => {
     dispatch(csrfTokenLoading());
     try {
-      const res = await fetch("/api/user/csrf-token", {
+      const res = await fetch(`${host}/api/user/csrf-token`, {
         method: "GET",
         credentials: "include", // important: includes cookies
       });
@@ -126,7 +126,7 @@ const App = () => {
   useEffect(() => {
     fetchCsrfToken();
   }, [isLoggedIn]);
-  
+
   useEffect(() => {
     requestPermission();
     onMessage(messaging, handleIncomingMessage);
