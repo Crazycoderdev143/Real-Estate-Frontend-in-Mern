@@ -12,7 +12,7 @@ const OAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const csrfToken = useSelector((state) => state.csrfToken.token);
+  // const csrfToken = useSelector((state) => state.csrfToken.token);
 
   const authenticateUser = async (usernameOrEmail, password) => {
     try {
@@ -21,7 +21,6 @@ const OAuth = () => {
         credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({usernameOrEmail, password}),
       });

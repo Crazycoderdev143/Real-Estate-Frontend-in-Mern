@@ -14,7 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({usernameOrEmail: "", password: ""});
 
-  const csrfToken = useSelector((state) => state.csrfToken.token);
+  // const csrfToken = useSelector((state) => state.csrfToken.token);
   const access_token = localStorage.getItem("access_token");
   const {isLoggedIn} = useSelector((state) => state.user);
   const mode = useSelector((state) => state.theme.mode);
@@ -43,7 +43,6 @@ const Login = () => {
         credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({
           usernameOrEmail: formData.usernameOrEmail.trim(),

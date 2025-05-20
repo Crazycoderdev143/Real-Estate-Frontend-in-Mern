@@ -108,24 +108,24 @@ const App = () => {
     }
   };
 
-  const fetchCsrfToken = async () => {
-    dispatch(csrfTokenLoading());
-    try {
-      const res = await fetch(`${host}/api/user/csrf-token`, {
-        method: "GET",
-        credentials: "include", // important: includes cookies
-      });
-      if (!res.ok) throw new Error("Failed to fetch CSRF token");
-      const {csrfToken} = await res.json();
-      dispatch(csrfTokenSuccess(csrfToken));
-    } catch (err) {
-      dispatch(csrfTokenFailure(err.message));
-    }
-  };
+  // const fetchCsrfToken = async () => {
+  //   dispatch(csrfTokenLoading());
+  //   try {
+  //     const res = await fetch(`${host}/api/user/csrf-token`, {
+  //       method: "GET",
+  //       credentials: "include", // important: includes cookies
+  //     });
+  //     if (!res.ok) throw new Error("Failed to fetch CSRF token");
+  //     const {csrfToken} = await res.json();
+  //     dispatch(csrfTokenSuccess(csrfToken));
+  //   } catch (err) {
+  //     dispatch(csrfTokenFailure(err.message));
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchCsrfToken();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   fetchCsrfToken();
+  // }, [isLoggedIn]);
 
   useEffect(() => {
     requestPermission();

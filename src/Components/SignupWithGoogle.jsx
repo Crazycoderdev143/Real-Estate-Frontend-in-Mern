@@ -18,20 +18,11 @@ const OAuth = () => {
   const registerUser = async (user) => {
     const userUid = user.providerData[0].uid.slice(0, 5);
     try {
-      const res = await fetch(`${HOST}/api/user/csrf-token`, {
-        method: "GET",
-        credentials: "include", // important: includes cookies
-      });
-      if (!res.ok) throw new Error("Failed to fetch CSRF token");
-      const { csrfToken } = await res.json();
-      console.log("csrfToken", csrfToken);
-      
       const response = await fetch(`${HOST}/api/user/googlesignup`, {
         method: "POST",
         credentials: "include", // Needed to send cookies
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({
           username: `${user.displayName}_${userUid}`,
