@@ -4,7 +4,7 @@ import {showAlert} from "../../Redux/slices/alertSlice";
 import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import Loading from "../../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
@@ -16,7 +16,7 @@ const SendNotification = () => {
   const [preview, setPreview] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn} = useSelector((state) => state.user);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";

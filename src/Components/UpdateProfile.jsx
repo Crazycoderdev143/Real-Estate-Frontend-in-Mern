@@ -6,7 +6,7 @@ import {login} from "../Redux/slices/userSlice";
 import {useNavigate} from "react-router-dom";
 import NotFound from "./NotFound";
 import Loading from "./Loading";
-import Cookies from "js-cookie";
+
 
 // Constants (Declared outside the component for efficiency)
 const HOST = import.meta.env.VITE_HOST || "http://localhost:8000";
@@ -18,7 +18,7 @@ const setCookie = (name, value, days) => {
 const UpdateProfile = () => {
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
   const mode = useSelector((state) => state.theme.mode);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

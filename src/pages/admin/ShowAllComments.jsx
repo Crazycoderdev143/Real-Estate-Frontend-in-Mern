@@ -3,14 +3,14 @@ import {useSelector, useDispatch} from "react-redux";
 import React, {useEffect, useMemo, useState} from "react";
 import Loading from "../../Components/Loading";
 import {useNavigate} from "react-router-dom";
-import Cookies from "js-cookie";
+
 
 const ShowAllComments = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn} = useSelector((state) => state.user);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";

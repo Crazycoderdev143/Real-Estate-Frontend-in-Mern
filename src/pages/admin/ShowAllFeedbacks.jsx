@@ -5,14 +5,14 @@ import React, {useEffect, useState, useMemo} from "react";
 import NotFound from "../../Components/NotFound";
 import Loading from "../../Components/Loading";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 
 const ShowAllFeedbacks = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);

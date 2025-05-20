@@ -367,7 +367,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {showAlert} from "../Redux/slices/alertSlice";
 import {Link, useNavigate} from "react-router-dom";
 import Loading from "../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const SignUp = () => {
   const initial = {username: "", email: "", password: "", phone: "", otp: ""};
@@ -377,7 +377,7 @@ const SignUp = () => {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn} = useSelector((state) => state.user);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000"; // Environment variable
@@ -405,9 +405,6 @@ const SignUp = () => {
     return true;
   };
 
-  const setCookie = (name, value, days, path) => {
-    Cookies.set(name, value, days, path);
-  };
 
   const sendOtp = async (e) => {
     e.preventDefault();
@@ -451,8 +448,6 @@ const SignUp = () => {
 
       if (data.success) {
         if (data.access_token) {
-          // Set token as cookie
-          setCookie("access_token", data.access_token, 7, {path: "/*"}); // Cookie valid for 7 days
           localStorage.setItem("access_token", data.access_token);
         }
         dispatch(login(data.user_info));

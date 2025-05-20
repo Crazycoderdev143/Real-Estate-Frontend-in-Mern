@@ -5,7 +5,7 @@ import React, {useEffect, useState, useMemo} from "react";
 import NotFound from "../../Components/NotFound";
 import Loading from "../../Components/Loading";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 
 const ShowAllContact = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const ShowAllContact = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const access_token = Cookies.get("access_token") || "";
+  const access_token = localStorage.getItem("access_token") || "";
   const mode = useSelector((state) => state.theme.mode);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const currentUser = useSelector((state) => state.user.currentUser);

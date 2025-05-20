@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import { logout } from "./userSlice"; // Ensure logout is an action creator
 
 const host = import.meta.env.VITE_HOST || "http://localhost:8000";
@@ -15,10 +14,10 @@ export const fetchCartProperties = createAsyncThunk(
 
             if (user.role === "Admin") return [];
 
-            const access_token = Cookies.get("access_token");
+            const access_token = localStorage.getItem("access_token");
             const res = await fetch(`${host}/api/${user.role.toLowerCase()}/cartitems/${user._id}`, {
                 method: "GET",
-                headers: { Authorization: access_token },
+                headers: { authorization: access_token },
             });
 
             const data = await res.json();

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useMemo, useState} from "react";
 import Loading from "../../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
   const mode = useSelector((state) => state.theme.mode);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";

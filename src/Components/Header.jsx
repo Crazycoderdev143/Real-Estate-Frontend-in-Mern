@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import {logout} from "../Redux/slices/userSlice";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 
 const Header = () => {
   const navigate = useNavigate();

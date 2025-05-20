@@ -6,7 +6,7 @@ import {logout} from "../Redux/slices/userSlice";
 import NotFound from "../Components/NotFound";
 import Loading from "../Components/Loading";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 import { showAlert } from "../Redux/slices/alertSlice";
 
 const removeCookie = (name) => {
@@ -17,7 +17,7 @@ const Profile = () => {
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
   const mode = useSelector((state) => state.theme.mode);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

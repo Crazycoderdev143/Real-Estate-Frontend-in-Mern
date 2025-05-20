@@ -6,14 +6,14 @@ import NotFound from "../../Components/NotFound";
 import React, {useEffect, useMemo, useState} from "react";
 import Loading from "../../Components/Loading";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 
 const ShowAllUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const [filterRole, setFilterRole] = useState("All");
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);

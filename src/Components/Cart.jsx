@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
-import Cookies from "js-cookie";
+
 import Loading from "./Loading";
 import * as Icons from "react-icons/fa";
 import {removeFromCart} from "../Redux/slices/cartSlice";
@@ -10,7 +10,7 @@ import {showAlert} from "../Redux/slices/alertSlice";
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const access_token = Cookies.get("access_token"); // Retrieve JWT token from cookies
+  const access_token = localStorage.getItem("access_token"); // Retrieve JWT token from cookies
   const mode = useSelector((state) => state.theme.mode); // Get theme mode (light/dark) from Redux state
   const {isLoggedIn, currentUser} = useSelector((state) => state.user); // Get user authentication state
   const host = import.meta.env.VITE_HOST || "http://localhost:8000"; // Backend API host URL

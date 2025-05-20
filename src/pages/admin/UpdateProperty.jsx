@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect, useMemo, useState} from "react";
 import NotFound from "../../Components/NotFound";
 import Loading from "../../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const UpdateProperty = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const UpdateProperty = () => {
   const {propertyId} = useParams();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
   const userRef = currentUser?._id; // Simulating user reference (Replace dynamically)
   const [formData, setFormData] = useState({userRef});

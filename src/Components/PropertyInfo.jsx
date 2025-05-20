@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+
 import Loading from "./Loading";
 import NotFound from "./NotFound";
 import {IoIosSend} from "react-icons/io";
@@ -18,7 +18,7 @@ const PropertyInfo = () => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [property, setProperty] = useState(null);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);

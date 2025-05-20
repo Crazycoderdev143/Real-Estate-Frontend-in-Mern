@@ -3,13 +3,13 @@ import React, {useEffect, useState, useCallback, useMemo} from "react";
 import {useSelector} from "react-redux";
 import NotFound from "./NotFound";
 import Loading from "./Loading";
-import Cookies from "js-cookie";
+
 import { showAlert } from "../Redux/slices/alertSlice";
 
 const ContactInfo = () => {
   const {contactId} = useParams(); // Get contact ID from URL
   const navigate = useNavigate();
-  const access_token = Cookies.get("access_token"); // Retrieve JWT token
+  const access_token = localStorage.getItem("access_token"); // Retrieve JWT token
   const mode = useSelector((state) => state.theme.mode); // Get theme mode (light/dark)
   const {isLoggedIn, currentUser} = useSelector((state) => state.user); // Get user authentication state
   const host = import.meta.env.VITE_HOST || "http://localhost:8000"; // API host URL

@@ -6,7 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import NotFound from "../../Components/NotFound";
 import Loading from "../../Components/Loading";
 import * as Icons from "react-icons/fa";
-import Cookies from "js-cookie";
+
 
 // Filter options: map these to actual filter values (use category or other properties)
 const filterOptions = [
@@ -24,7 +24,7 @@ const ShowAllProperty = () => {
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const mode = useSelector((state) => state.theme.mode);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState([]);

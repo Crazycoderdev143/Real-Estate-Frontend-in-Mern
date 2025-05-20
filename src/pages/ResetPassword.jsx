@@ -3,14 +3,14 @@ import {showAlert} from "../Redux/slices/alertSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import Loading from "../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {resetToken} = useParams();
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn} = useSelector((state) => state.user);
   const [formData, setFormData] = useState({newPassword: ""});

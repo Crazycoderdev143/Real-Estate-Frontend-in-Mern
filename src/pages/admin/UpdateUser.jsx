@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import NotFound from "../../Components/NotFound";
 import Loading from "../../Components/Loading";
 import DOMPurify from "dompurify";
-import Cookies from "js-cookie";
+
 
 const UpdateUser = () => {
   const {userId} = useParams();
@@ -16,7 +16,7 @@ const UpdateUser = () => {
   const [file, setFile] = useState();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  const access_token = Cookies.get("access_token");
+  const access_token = localStorage.getItem("access_token");
   const [profileImage, setProfileImage] = useState();
   const mode = useSelector((state) => state.theme.mode);
   const {isLoggedIn} = useSelector((state) => state.user);

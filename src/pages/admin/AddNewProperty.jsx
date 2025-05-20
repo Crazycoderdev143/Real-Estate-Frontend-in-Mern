@@ -2,7 +2,7 @@ import React, {useEffect, useState, useMemo, useCallback} from "react";
 import {showAlert} from "../../Redux/slices/alertSlice";
 import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import Cookies from "js-cookie";
+
 
 // Utility function for validation (improves maintainability)
 const validateForm = (formData, dispatch) => {
@@ -36,7 +36,7 @@ const AddNewProperty = () => {
   const navigate = useNavigate();
 
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
-  const access_token = useMemo(() => Cookies.get("access_token"), []);
+  const access_token = useMemo(() => localStorage.getItem("access_token"), []);
   const userRef = currentUser?._id;
 
   const MAX_IMAGES = 6;

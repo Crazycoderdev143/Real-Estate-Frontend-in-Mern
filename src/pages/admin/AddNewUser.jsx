@@ -4,7 +4,7 @@ import React, {useState, useRef, useCallback, useMemo} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import Loading from "../../Components/Loading";
-import Cookies from "js-cookie";
+
 
 const AddNewUser = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const AddNewUser = () => {
   const {isLoggedIn} = useSelector((state) => state.user);
   const host = import.meta.env.VITE_HOST || "http://localhost:8000";
 
-  if (!isLoggedIn || !Cookies.get("access_token")) navigate("/login");
+  if (!isLoggedIn || !localStorage.getItem("access_token")) navigate("/login");
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
