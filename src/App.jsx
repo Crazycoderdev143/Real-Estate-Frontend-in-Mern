@@ -130,7 +130,6 @@ const App = () => {
   useEffect(() => {
     requestPermission();
     onMessage(messaging, handleIncomingMessage);
-    fetchCsrfToken();
   }, []);
 
   return (
