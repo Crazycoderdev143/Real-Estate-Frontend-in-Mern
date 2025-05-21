@@ -368,10 +368,16 @@ import {showAlert} from "../Redux/slices/alertSlice";
 import {Link, useNavigate} from "react-router-dom";
 import Loading from "../Components/Loading";
 
-
 const SignUp = () => {
-  const initial = {username: "", email: "", password: "", phone: "", otp: ""};
-  const [formData, setFormData] = useState({role: "User"});
+  const initial = {
+    username: "",
+    email: "",
+    password: "",
+    phone: "",
+    otp: "",
+    role: "User",
+  };
+  const [formData, setFormData] = useState(initial);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // To navigate after successful signup
   const [message, setMessage] = useState(null);
@@ -405,7 +411,6 @@ const SignUp = () => {
     return true;
   };
 
-
   const sendOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -422,6 +427,7 @@ const SignUp = () => {
         setOtpSent(true);
       } else {
         dispatch(showAlert({message: data.message, type: "error"}));
+        setFormData(initial);
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
@@ -485,92 +491,104 @@ const SignUp = () => {
   );
 
   return (
-    <div className={`p-4 max-w-lg mx-auto pt-16 ${themeClasses.container}`}>
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <h1 className="text-2xl text-center font-semibold my-3">
-            Create an account
-          </h1>
-          <h5 className="text-center my-2">
-            Have an account?{" "}
-            <Link
-              to="/login"
-              className="text-blue-600 underline"
+    <div
+      className={`min-h-screen flex items-center justify-center p-4 app ${themeClasses.container}`}
+    >
+      <div className="w-full max-w-md p-6 rounded-lg shadow-md">
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <h1 className="text-2xl text-center font-semibold my-3">
+              Create an account
+            </h1>
+            <h5 className="text-center my-2">
+              Have an account?{" "}
+              <Link
+                to="/login"
+                className="text-blue-600 underline"
+              >
+                Click here
+              </Link>
+            </h5>
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={handleSubmit}
             >
-              Click here
-            </Link>
-          </h5>
-          <form
-            className="flex flex-col gap-3"
-            onSubmit={handleSubmit}
-          >
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              className={`p-2 border rounded-lg app ${themeClasses.input}`}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="phone"
-              name="phone"
-              placeholder="Mobile No."
-              className={`p-2 border rounded-lg app ${themeClasses.input}`}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              className={`p-2 border rounded-lg app ${themeClasses.input}`}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              className={`p-2 border rounded-lg app ${themeClasses.input}`}
-              onChange={handleChange}
-              required
-            />
-            {otpSent && (
               <input
                 type="text"
-                name="otp"
-                placeholder="Enter OTP"
+                name="username"
+                placeholder="Username"
                 className={`p-2 border rounded-lg app ${themeClasses.input}`}
                 onChange={handleChange}
+                value={formData.username || ""}
+                disabled={otpSent}
                 required
               />
-            )}
-            <button
-              type="button"
-              onClick={sendOtp}
-              className={`app ${themeClasses.button} p-3 rounded-lg disabled:opacity-50`}
-              disabled={otpSent}
-            >
-              Send OTP
-            </button>
-            {otpSent && (
+              <input
+                type="phone"
+                name="phone"
+                placeholder="Mobile No."
+                className={`p-2 border rounded-lg app ${themeClasses.input}`}
+                onChange={handleChange}
+                value={formData.phone || ""}
+                disabled={otpSent}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                className={`p-2 border rounded-lg app ${themeClasses.input}`}
+                onChange={handleChange}
+                value={formData.email || ""}
+                disabled={otpSent}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                className={`p-2 border rounded-lg app ${themeClasses.input}`}
+                onChange={handleChange}
+                value={formData.password || ""}
+                disabled={otpSent}
+                required
+              />
+              {otpSent && (
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  className={`p-2 border rounded-lg app ${themeClasses.input}`}
+                  onChange={handleChange}
+                  required
+                />
+              )}
               <button
-                type="submit"
-                className="bg-green-600 text-white p-3 rounded-lg"
+                type="button"
+                onClick={sendOtp}
+                className={`app ${themeClasses.button} p-3 rounded-lg disabled:opacity-50`}
+                hidden={otpSent}
               >
-                Submit
+                Send OTP
               </button>
-            )}
-            <SignupWithGoogle />
-            {message && (
-              <div className="text-red-600 text-center mt-2">{message}</div>
-            )}
-          </form>
-        </>
-      )}
+              {otpSent && (
+                <button
+                  type="submit"
+                  className="bg-green-600 text-white p-3 rounded-lg"
+                >
+                  Submit
+                </button>
+              )}
+              <SignupWithGoogle />
+              {message && (
+                <div className="text-red-600 text-center mt-2">{message}</div>
+              )}
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };
