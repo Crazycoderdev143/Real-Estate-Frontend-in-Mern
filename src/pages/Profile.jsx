@@ -1,17 +1,12 @@
-import React, {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import defaultProImg from "../public/images/userpic.jpg";
 import {useDispatch, useSelector} from "react-redux";
+import {showAlert} from "../Redux/slices/alertSlice";
 import {Link, useNavigate} from "react-router-dom";
 import {logout} from "../Redux/slices/userSlice";
 import NotFound from "../Components/NotFound";
 import Loading from "../Components/Loading";
 import * as Icons from "react-icons/fa";
-
-import { showAlert } from "../Redux/slices/alertSlice";
-
-const removeCookie = (name) => {
-  Cookies.remove(name);
-};
 
 const Profile = () => {
   const {isLoggedIn, currentUser} = useSelector((state) => state.user);
@@ -33,7 +28,6 @@ const Profile = () => {
 
   const logOut = () => {
     dispatch(logout());
-    removeCookie("access_token");
     localStorage.removeItem("access_token");
     navigate("/login");
   };
@@ -53,13 +47,13 @@ const Profile = () => {
 
       if (data.success) {
         dispatch(logout());
-        removeCookie("access_token");
         localStorage.clear();
         navigate("/login");
       }
       setState({loading: false, message: data.message});
     } catch (error) {
-      dispatch(showAlert({message: "Something went wrong!", type: "error"}));
+      dispatch(showAlert({message: error.message, type: "error"}));
+      // dispatch(showAlert({message: "Something went wrong!", type: "error"}));
     }
   };
 
